@@ -7,6 +7,7 @@ import { Provider, connect } from "react-redux";
 // ============
 const ADD_NUMBER = "add_number";
 const SUB_NUMBER = "sub_number";
+const RES_NUMBER = "res_number";
 
 // Action (Real Ones)
 // ==================
@@ -19,6 +20,10 @@ const subAction = () => ({
   type: SUB_NUMBER,
   payload: 1
 }); // returns an object
+
+const resAction = () => ({
+  type: RES_NUMBER
+});
 
 // Reducer - passes two parameters state and action with initial value for state
 // =============================================================================
@@ -33,6 +38,11 @@ const mathReducer = (state = { number: 0 }, action) => {
       ...state,
       number: state.number - action.payload
     };
+  } else if (action.type === RES_NUMBER && state.number > 0) {
+    return {
+      ...state,
+      number: 0
+    }
   }
 
   return state;
@@ -65,14 +75,16 @@ const mapStateToProps = state => {
 // ============================================================================================================
 const mapDispatchToProps = dispatch => ({
   add: () => dispatch(addAction()),
-  sub: () => dispatch(subAction())
+  sub: () => dispatch(subAction()),
+  res: () => dispatch(resAction())
 });
 
 const Counter = (props) => (
   <div>
     <h2>Counter: {props.number}</h2>
-    <input type="button" value="add" onClick={props.add} />
-    <input type="button" value="sub" onClick={props.sub} />
+    <input type="button" value="+" onClick={props.add} />
+    <input type="button" value="-" onClick={props.sub} />
+    <input type="button" value="RESET" onClick={props.res} />
   </div>
 );
 
